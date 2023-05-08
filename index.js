@@ -35,11 +35,21 @@ async function run() {
 
     // ! CRUD
     // get সাধারণত post এর আগে সবাই বসায়
-    // Read
+    
+    // Read multiple document
     app.get('/users', async( req, res) => {
       const cursor = userCollection.find()
       const result = await cursor.toArray();
       res.send(result)
+    })
+
+    //Load Single Item By Id 
+    app.get('/users/:id', async(req, res) => {
+      const id = req.params.id;
+
+      const query = {_id : new ObjectId(id)}
+      const user = await userCollection.findOne(query);
+      res.send(user)
     })
     
     // Create
@@ -57,8 +67,6 @@ async function run() {
       const query = {_id : new ObjectId(id)}
       const result = await userCollection.deleteOne(query);
       res.send(result);
-
-
     })
 
 
