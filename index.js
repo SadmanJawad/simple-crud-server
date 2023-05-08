@@ -11,7 +11,7 @@ app.use(express.json())
 // FXgWqzzDULe3VhEv
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://sadman3jawad5:FXgWqzzDULe3VhEv@cluster0.ixkqk3t.mongodb.net/?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -27,24 +27,39 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    //? type 1
+    // const database = client.db("usersDB");
+    // const userCollection = database.collection("users");
+    // ? type 2 
+    const userCollection = client.db('usersDB').collection('users')
 
-    const database = client.db("usersDB");
-    const userCollection = database.collection("users");
-    
+    // ! CRUD
+    // get সাধারণত post এর আগে সবাই বসায়
+    // Read
     app.get('/users', async( req, res) => {
       const cursor = userCollection.find()
-      const result = await cursor.toArray() ;
+      const result = await cursor.toArray();
       res.send(result)
     })
     
+    // Create
     app.post('/users', async(req, res) => {
         const user = req.body;
         console.log('new user', user)
 
         const result = await userCollection.insertOne(user);
         res.send(result);
-
     });
+    // Delete
+    app.delete('/users/:id', async(req, res) => {
+      const id = req.params.id;
+      console.log('Please Delete this id from database', id)
+      const query = {_id : new ObjectId(id)}
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+
+
+    })
 
 
 
