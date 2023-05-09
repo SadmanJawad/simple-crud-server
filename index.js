@@ -10,9 +10,17 @@ app.use(express.json())
 // sadman3jawad5
 // FXgWqzzDULe3VhEv
 
-
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://sadman3jawad5:FXgWqzzDULe3VhEv@cluster0.ixkqk3t.mongodb.net/?retryWrites=true&w=majority";
+
+// !offline use
+
+// const uri = 'mongodb://localhost:27017';
+const uri = "mongodb://0.0.0.0:27017/";
+
+
+
+// !online use
+// const uri = "mongodb+srv://sadman3jawad5:FXgWqzzDULe3VhEv@cluster0.ixkqk3t.mongodb.net/?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
